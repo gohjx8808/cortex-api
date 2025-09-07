@@ -2,18 +2,22 @@
 name = "cortex-api"
 version = "0.1.0"
 description = "Houses APIs which will provide model inferences"
-authors = [
-    {name = "Jing Xuan Goh",email = "gohjx8808@gmail.com"}
-]
+authors = [{ name = "Jing Xuan Goh", email = "gohjx8808@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "fastapi (>=0.116.1,<0.117.0)",
     "tensorflow (>=2.20.0,<3.0.0)",
-    "ultralytics (>=8.3.195,<9.0.0)"
+    "ultralytics (>=8.3.195,<9.0.0)",
+    "fastapi[standard] (>=0.116.1,<0.117.0)",
 ]
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+poethepoet = "^0.37.0"
+
+[tool.poe.tasks]
+dev = "fastapi dev cortex_api/main.py"
