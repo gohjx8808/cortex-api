@@ -1,4 +1,6 @@
-from fastapi import APIRouter
+import cv2
+import numpy as np
+from fastapi import APIRouter, File, UploadFile
 from pydantic import BaseModel
 from ultralytics import YOLO
 
@@ -12,8 +14,14 @@ class DetectionResponse(BaseModel):
 model = YOLO("yolo11n.pt")
 
 
-@router.get("/detect")
-def detect_objects():
-    results = model.train(data="coco8.yaml", epochs=3)
-    print(results)
-    return {"message": "Object detection endpoint"}
+@router.post("/detect")
+async def detect_objects(file: UploadFile = File(...)):
+    # Read file contents
+    contents = await file.read()
+    nparr = np.frombuffer(contents, np.uint8)
+
+    # Decode image
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+    results = model(img)
+    return results[0].to_json()
