@@ -1,6 +1,5 @@
-from fastapi import FastAPI
 from cortex_api.routers import objectDetection
-
+from fastapi import FastAPI
 
 app = FastAPI()
 

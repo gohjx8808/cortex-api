@@ -1,7 +1,6 @@
-from fastapi import APIRouter, File, UploadFile
+from fastapi import APIRouter
 from pydantic import BaseModel
 from ultralytics import YOLO
-
 
 router = APIRouter()
 
@@ -15,7 +14,6 @@ model = YOLO("yolo11n.pt")
 
 @router.get("/detect")
 def detect_objects():
-
     results = model.train(data="coco8.yaml", epochs=3)
     print(results)
     return {"message": "Object detection endpoint"}

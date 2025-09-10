@@ -18,6 +18,41 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.group.dev.dependencies]
 poethepoet = "^0.37.0"
+ruff = "^0.12.12"
+pre-commit = "^4.3.0"
 
 [tool.poe.tasks]
 dev = "fastapi dev cortex_api/main.py"
+
+[tool.ruff]
+# Directories to lint
+src = ["src", "tests"]
+
+# Line length (consistent with black)
+line-length = 88
+
+# Enable/disable rule sets
+lint.select = ["E", "F", "I"]   # E = pycodestyle, F = pyflakes, I = import sorting
+lint.ignore = ["E501"]          # example: ignore long-line warning
+
+# Fix imports automatically
+lint.fixable = ["ALL"]
+
+# Allow Ruff to act like isort
+lint.extend-select = ["I"]
+
+# Exclude common project dirs
+exclude = [
+    ".venv",
+    ".git",
+    "__pycache__",
+    "build",
+    "dist"
+]
+
+# Formatter config (like Black)
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+skip-magic-trailing-comma = false
