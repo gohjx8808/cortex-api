@@ -1,3 +1,5 @@
+import json
+
 import cv2
 import numpy as np
 from fastapi import APIRouter, File, UploadFile
@@ -24,4 +26,4 @@ async def detect_objects(file: UploadFile = File(...)):
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
     results = model(img)
-    return results[0].to_json()
+    return json.loads(results[0].to_json())
