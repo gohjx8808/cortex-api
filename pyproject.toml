@@ -4,11 +4,12 @@ version = "0.1.0"
 description = "Houses APIs which will provide model inferences"
 authors = [{ name = "Jing Xuan Goh", email = "gohjx8808@gmail.com" }]
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.9,<4.0"
 dependencies = [
     "tensorflow (>=2.20.0,<3.0.0)",
     "ultralytics (>=8.3.195,<9.0.0)",
     "fastapi[standard] (>=0.116.1,<0.117.0)",
+    "deep-translator (>=1.11.4,<2.0.0)",
 ]
 
 
