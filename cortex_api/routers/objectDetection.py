@@ -1,11 +1,18 @@
 import json
+from enum import Enum
 
 import cv2
 import numpy as np
 from deep_translator import GoogleTranslator
-from fastapi import APIRouter, File, UploadFile
+from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 from pydantic import BaseModel
 from ultralytics import YOLO
+
+
+class Language(str, Enum):
+    en = "en"
+    zh = "zh-CN"
+
 
 router = APIRouter()
 
@@ -17,9 +24,20 @@ class DetectionResponse(BaseModel):
 model = YOLO("yolo11n.pt")
 
 
+ALLOWED_TYPES = {"image/jpeg", "image/png"}
+
+
 @router.post("/detect")
-async def detect_objects(file: UploadFile = File(...)):
-    translator = GoogleTranslator(source="en", target="zh-TW")
+async def detect_objects(
+    file: UploadFile = File(...),
+    lang: Language = Form(..., description="Language code (e.g. en, zh-CN)"),
+) -> list[dict]:
+    if file.content_type not in ALLOWED_TYPES:
+        raise HTTPException(
+            status_code=400, detail="Only JPG and PNG images are allowed"
+        )
+
+    translator = GoogleTranslator(source="en", target=lang)
 
     # Read file contents
     contents = await file.read()
