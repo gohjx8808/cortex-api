@@ -24,7 +24,7 @@ class DetectionResponse(BaseModel):
 model = YOLO("yolo11n.pt")
 
 
-ALLOWED_TYPES = {"image/jpeg", "image/png"}
+ALLOWED_TYPES = {"image/jpeg", "image/png", "image/jpg"}
 
 
 @router.post("/detect")
